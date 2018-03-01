@@ -83,10 +83,13 @@ module.exports = class QuestionInterface {
 	}
 
 	addQuestion(questionObject) {
+		let maxIndex = this.getQuestionLength()
 		// return index of added question if successful
-		if(hasRequiredProperties(questionObject)) {
-			let jsonStr = JSON.stringify(questionObject)
-			fs.appendFile(filePath, jsonStr, function (err) {
+		if(this.hasRequiredProperties(questionObject)) {
+			// let jsonStr = JSON.stringify(questionObject)
+			this.fileObj[maxIndex] = questionObject
+			let stringJSON = JSON.stringify(this.fileObj)
+			fs.writeFile(filePath, stringJSON, function (err) {
 				if (err) throw err;
 				console.log('Question Added!');
 			  });
@@ -97,8 +100,10 @@ module.exports = class QuestionInterface {
 		let qList = this.fileObj
 		delete qList[index]
 
+		let stringJSON = JSON.stringify(this.fileObj)
+
 		// override file
-		fs.writeFile(filePath, qList, (err) => {  
+		fs.writeFile(filePath, stringJSON, (err) => {  
 			if (err) throw err;
 
 			console.log('Removed Question!');

@@ -40,5 +40,22 @@ else {
 
 
 // Test Add
+console.log('\nTest Add')
+let exampleQ = {
+    question: 'Pick A',
+    A: 'This one!',
+    B: 'Not Me',
+    C: 'Not Me',
+    D: 'Not Me',
+    answer: 'A'
+}
+// console.log(exampleQ)
+// console.log(qInterface.getQuestionLength())
+// qInterface.addQuestion(exampleQ)
+// console.log(qInterface.getQuestionLength())
 
 // Test Remove
+console.log('\n\nTest Remove')
+// console.log(qInterface.getQuestionLength())
+// qInterface.removeQuestion(547)
+// console.log(qInterface.getQuestionLength())

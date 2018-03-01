@@ -8,7 +8,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "testQ": "node ./tests/QuestionInterfaceTest.js"
   },
   "author": "Chris Rupper <chrisrupper@gmail.com>",
   "license": "ISC"

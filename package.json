@@ -4,12 +4,14 @@
   "description": "Who Wants to be a Millionaire",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongodb": "^3.0.4"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testQ": "node ./tests/QuestionInterfaceTest.js"
+    "testQ": "node ./tests/QuestionInterfaceTest.js",
+    "testM": "node ./tests/MongoControllerTest.js"
   },
   "author": "Chris Rupper <chrisrupper@gmail.com>",
   "license": "ISC"

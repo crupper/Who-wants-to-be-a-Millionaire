@@ -40,37 +40,35 @@ module.exports.insertUser = function(username, password) {
 }
 
 module.exports.getID = async function (username) {
-	await MongoClient.connect(url)
-	.then((conn) => {
-		let dbo = conn.db("millionaire");
-		let query = { 'username': username }
-		// Promise
-		// dbo.collection("users").findOne(query).then((result) => {
-		// 	console.log('In the .then')
-		// 	console.log(result)
-		// })
-		// Callback
-		dbo.collection("users").findOne(query, function(err, result) {
-			console.log(result)
-			console.log('Result is: ' + result._id)
-			return result._id
-		})
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	let query = { 'username': username }
+	// Promise
+	const dbQuery = await dbo.collection("users").findOne(query)
+	// console.log(dbQuery)
+	connection.close()
+	return dbQuery._id
 
-		conn.close()
-	})
+	// return await dbo.collection("users").findOne(query).then(() => {
+	// 	connection.close()
+	// })
 }
 
-module.exports.getAllUsers = function() {
-	MongoClient.connect(url)
-	.then((conn) => {
-		let dbo = conn.db("millionaire");
-		dbo.collection("users").find({}).toArray(function(err, result) {
-			if (err) throw err;
-			console.log(result);
-			conn.close();
-			return result
-		  });
-	})
+module.exports.getUser = async function(username) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	let query = { 'username': username }
+	const dbQuery = await dbo.collection("users").findOne(query)
+	connection.close()
+	return dbQuery
+}
+
+module.exports.getAllUsers = async function() {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	const dbQuery = await dbo.collection("users").find({}).toArray()
+	connection.close()
+	return dbQuery
 }
 
 module.exports.deleteUserByUsername = function(username) {
@@ -91,42 +89,40 @@ module.exports.deleteUserById = function(id) {
 	})
 }
 
-module.exports.addCorrectQuestionToUser = function(username, questionId) {
-	MongoClient.connect(url)
-	.then((conn) => {
-		let dbo = conn.db("millionaire");
-		// need to first grab list of questions answered correctly
-		// then update array and update document
-		dbo.collection("users").updateOne({"username": username}, {$set: { "correctQuestions" : questionId }})
-		conn.close()
-	})
+module.exports.addCorrectQuestionToUser = async function(username, questionId) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	let query = { 'username': username }
+	const dbQuery = await dbo.collection("users").findOne(query)
+	let correctQuestions = dbQuery.correctQuestions
+	let correctUpdatedQuestions = [].concat(correctQuestions)
+	correctUpdatedQuestions.push(questionId)
+	console.log(correctUpdatedQuestions)
+	const updateUser = await dbo.collection("users").updateOne({"username": username}, {$set: { "correctQuestions" : correctUpdatedQuestions }})
+	connection.close()
 }
 
-module.exports.updateTotalPrizeMoney = function(username, updatedMoney) {
-	MongoClient.connect(url)
-	.then((conn) => {
-		let dbo = conn.db("millionaire");
-		// need to first grab old money
-
-		// then update array and update document
-		dbo.collection("users").updateOne({"username": username}, {$set: { "totalWinnings" : updatedMoney }})
-		conn.close()
-	})
+module.exports.updatePrizeMoney = async function(username, updatedMoney) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	// need to first grab user and get old money
+	let query = { 'username': username }
+	const dbQuery = await dbo.collection("users").findOne(query)
+	let oldPrizeMoney = dbQuery.totalPrizeWinnings
+	let singlePrize = dbQuery.singlePrizeWinnings
+	if(typeof dbQuery.totalPrizeWinnings === "undefined") {
+		oldPrizeMoney = 0
+	}
+	if(typeof dbQuery.singlePrizeWinnings === "undefined") {
+		singlePrize = 0
+	}
+	// then update money and update document
+	let totalPrizeMoney = oldPrizeMoney + updatedMoney
+	await dbo.collection("users").updateOne({"username": username}, {$set: { "totalPrizeWinnings" : totalPrizeMoney }})
+	// check if updatedMoney is greatest money yet
+	if(updatedMoney > singlePrize) {
+		await dbo.collection("users").updateOne({"username": username}, {$set: { "singlePrizeWinnings" : updatedMoney }})
+	}
+	
+	connection.close()
 }
-
-module.exports.updateSinglePrizeAmount = function(username, winnings) {
-	MongoClient.connect(url)
-	.then((conn) => {
-		let dbo = conn.db("millionaire");
-		// need to first grab old money
-
-		// Compare old money with winnings
-
-		// then update document if winnings > old money
-		dbo.collection("users").updateOne({"username": username}, {$set: { "singlePrizeWinnings" : winnings }})
-		conn.close()
-	})
-}
-
-// TODO:
-// write getters for single prize amount, total prize amount

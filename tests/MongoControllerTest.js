@@ -7,10 +7,17 @@ const MongoController = require('../server/controllers/MongoController.js')
 // MongoController.setup() // passes
 // MongoController.createUserCollection() // passes
 // MongoController.insertUser('John', 'pass') // passes
-// console.log(MongoController.getID('chris')) // Cannot return the Id
+// MongoController.getID('Chris').then(console.log) // passes
+// console.log(MongoController.getID('Chris')._id)
 // MongoController.deleteUserByUsername('Chris') // passes
 
-let list = MongoController.getAllUsers() // Cannot return the list
-console.log(list)
+// console.log('\nGet all users:')
+// MongoController.getAllUsers().then(console.log) // passes
 
-// MongoController.addCorrectQuestionToUser('Chris', 4) // can do simplified
+// console.log('\nGet One User')
+// MongoController.getUser('Bob').then(console.log) // passes
+
+// MongoController.addCorrectQuestionToUser('Chris', 2) // passes
+
+// MongoController.updatePrizeMoney('Chris', 10) // passes
+// MongoController.updatePrizeMoney('Bob', 12) // passes

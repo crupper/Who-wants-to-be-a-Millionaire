@@ -24,7 +24,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "testQ": "node ./tests/QuestionInterfaceTest.js",
-    "testM": "node ./tests/MongoControllerTest.js"
+    "testM": "node ./tests/MongoControllerTest.js",
+    "testA": "node ./tests/AuthHelperTest.js"
   },
   "author": "Chris Rupper <chrisrupper@gmail.com>",
   "license": "ISC"

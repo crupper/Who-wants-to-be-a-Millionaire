@@ -21,3 +21,11 @@ const MongoController = require('../server/controllers/MongoController.js')
 
 // MongoController.updatePrizeMoney('Chris', 10) // passes
 // MongoController.updatePrizeMoney('Bob', 12) // passes
+
+
+// test insertUserObject
+let userObj = {
+    username: 'test',
+    password: 'testpass'
+}
+// MongoController.insertUserObject(userObj) // passes

@@ -1,5 +1,6 @@
 'use strict'
 
+let mongo = require('mongodb')
 var MongoClient = require('mongodb').MongoClient
 let url = 'mongodb://localhost:27017/millionaire'
 
@@ -39,6 +40,16 @@ module.exports.insertUser = function(username, password) {
 	})
 }
 
+module.exports.insertUserObject = async function(user) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	// let query = { 'username': username }
+
+	const dbQuery = await dbo.collection("users").insertOne(user)
+	connection.close()
+	return dbQuery._id
+}
+
 module.exports.getID = async function (username) {
 	const connection = await MongoClient.connect(url)
 	let dbo = await connection.db("millionaire");
@@ -58,6 +69,34 @@ module.exports.getUser = async function(username) {
 	const connection = await MongoClient.connect(url)
 	let dbo = await connection.db("millionaire");
 	let query = { 'username': username }
+	const dbQuery = await dbo.collection("users").findOne(query)
+	connection.close()
+	return dbQuery
+}
+
+module.exports.getUserFromFBID = async function(id) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	let query = { 'facebook.id': id }
+	const dbQuery = await dbo.collection("users").findOne(query)
+	connection.close()
+	return dbQuery
+}
+
+module.exports.getUserFromGoogle = async function(id) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	let query = { 'google.id': id }
+	const dbQuery = await dbo.collection("users").findOne(query)
+	connection.close()
+	return dbQuery
+}
+
+module.exports.getUserById = async function(id) {
+	const connection = await MongoClient.connect(url)
+	let dbo = await connection.db("millionaire");
+	let o_id = new mongo.ObjectID(id)
+	let query = { '_id': o_id }
 	const dbQuery = await dbo.collection("users").findOne(query)
 	connection.close()
 	return dbQuery

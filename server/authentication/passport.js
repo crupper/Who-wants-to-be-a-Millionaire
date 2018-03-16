@@ -1,9 +1,15 @@
 'use-strict'
 
-const LocalStrategy   = require('passport-local').Strategy;
-const MongoController = require('../controllers/MongoController')
-const AuthHelper      = require('./authHelper')
-const User            = require('../model/User')
+const LocalStrategy     = require('passport-local').Strategy
+const FacebookStrategy  = require('passport-facebook').Strategy
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const MongoController   = require('../controllers/MongoController')
+const AuthHelper        = require('./authHelper')
+const User              = require('../model/User')
+// const getUser         = require('../model/User').getUser
+
+// load the auth variables
+var configAuth = require('./auth');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -17,15 +23,28 @@ module.exports = function(passport) {
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
         // done(null, user.id);
-        done(null, user);
+        console.log('in serialized')
+        console.log(user)
+        done(null, user._id);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(user, done) {
+    passport.deserializeUser(function(user_id, done) {
         // User.findById(id, function(err, user) {
         //     done(err, user);
         // });
-        done(null, user);
+        console.log('in deserialized')
+        // User gets lost here
+        let userRequest = MongoController.getUserById(user_id)
+        userRequest.then((result) => {
+            console.log('This is the dbQuery Result:')
+            console.log(result)
+            // done(null, getUser(result))
+            done(null, result)
+        })
+        // console.log('the user id: ')
+        // console.log(user_id)
+        // done(null, user_id);
     });
 
     // =========================================================================
@@ -51,6 +70,7 @@ module.exports = function(passport) {
                 let hashedPassword = AuthHelper.generateHash(password)
                 MongoController.insertUser(email, hashedPassword)
                 let user = new User(email, hashedPassword)
+                // let user = getUser(value) // Need to get ID from DB
                 return done(null, user)
             }
         })
@@ -73,18 +93,172 @@ module.exports = function(passport) {
             if(value !== null) {
                 // user exists
                 if (AuthHelper.compareHash(password, value.password)) {
-                    let loggedInUser = new User(email, password)
+                    let loggedInUser = getUser(value)
                     return done(null, loggedInUser);
                 } else {
-                    return done(null, false, req.flash('loginMessage', 'Wrong password'));
+                    return done(null, false, req.flash('loginMessage', 'Wrong username/password'));
                 }
                 
             } else {
                 return done(null, false, req.flash('loginMessage', 'Wrong username/password'));
             }
         })
+        requestedUser.catch((err) => {
+            console.log('Error in Passport local-login')
+            console.log(err)
+        })
+    }));
+
+
+    // =========================================================================
+    // FACEBOOK ================================================================
+    // =========================================================================
+    passport.use(new FacebookStrategy({
+        // pull in our app id and secret from our auth.js file
+        clientID        : configAuth.facebookAuth.clientID,
+        clientSecret    : configAuth.facebookAuth.clientSecret,
+        callbackURL     : configAuth.facebookAuth.callbackURL
+    },
+
+    // facebook will send back the token and profile
+    function(token, refreshToken, profile, done) {
+
+        // asynchronous
+        process.nextTick(function() {
+
+            // find the user in the database based on their facebook id
+            console.log(profile)
+            let requestedUser = MongoController.getUserFromFBID(profile.id)
+            requestedUser.then((dbResult) => {
+                // if user is found, log in
+                if (dbResult) {
+                    // return done(null, getUser(dbResult))
+                    return done(null, dbResult)
+                } else {
+                    console.log(profile)
+                    console.log(token)
+                    console.log('Still working 1')
+                    let newUser = new User()
+                    // set all of the facebook information in our user model
+                    newUser.username       = profile.displayName
+                    newUser.displayName    = profile.displayName
+                    newUser.facebook.id    = profile.id; // set the users facebook id
+                    newUser.facebook.token = token; // we will save the token that facebook provides to the user
+                    // newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
+                    // newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first // Gives errors
+                    console.log(newUser)
+
+                    // save them to DB
+                    let save = MongoController.insertUserObject(newUser)
+                    save.then((userID) => {
+                        if (userID !== null) {
+                            newUser.id = userID
+                            return done(null, newUser);
+                        } else {
+                            console.log('not successful saving new FB user')
+                        }
+                    })
+                    save.catch((err) => {
+                        console.log('error in FB save')
+                    })
+                }
+            })
+            requestedUser.catch((err) => {
+                console.log('Error in requestUser FB')
+            })
+        });
+
+    }));
+
+
+
+    // =========================================================================
+    // GOOGLE ==================================================================
+    // =========================================================================
+    passport.use(new GoogleStrategy({
+
+        clientID        : configAuth.googleAuth.clientID,
+        clientSecret    : configAuth.googleAuth.clientSecret,
+        callbackURL     : configAuth.googleAuth.callbackURL,
+
+    },
+    function(token, refreshToken, profile, done) {
+
+        // make the code asynchronous
+        process.nextTick(function() {
+            // find the user in the database based on their facebook id
+            let requestedUser = MongoController.getUserFromGoogle(profile.id)
+            requestedUser.then((dbResult) => {
+                if (dbResult) {
+                    // return done(null, getUser(dbResult))
+                    return done(null, dbResult)
+                } else {
+                    let newUser = new User()
+                    // set all of the relevant information
+                    newUser.facebook = {}
+                    newUser.google.id    = profile.id;
+                    newUser.google.token = token;
+                    newUser.google.name  = profile.displayName;
+                    newUser.google.email = profile.emails[0].value; // pull the first email
+
+                    // save them to DB
+                    let save = MongoController.insertUserObject(newUser)
+                    save.then((userID) => {
+                        console.log(userID)
+                        if (userID !== null) {
+                            newUser.id = userID
+                            return done(null, newUser);
+                        } else {
+                            console.log('not successful saving new FB user')
+                        }
+                    })
+                    save.catch((err) => {
+                        console.log('Error in save in google passport')
+                    })
+                }
+            })
+            requestedUser.catch((err) =>{
+                console.log('Error in google passport')
+            })
+        });
+
     }));
 
 
 
 };
+
+function getUser(dbQuery) {
+    // The problem seems to be that passport needs to serialize the object and save the id for session management
+    // The error comes when deserializing since I cannot recreate the user from the DB
+    console.log('in dbQuery')
+    let newUser = new User()
+    newUser.id = dbQuery._id
+    newUser._id = dbQuery._id
+    newUser.facebook = dbQuery.facebook
+    newUser.google = dbQuery.google
+    if(typeof dbQuery.username !== "undefined") {
+        newUser.username = dbQuery.username
+    }
+    if(typeof dbQuery.password !== "undefined") {
+        newUser.password = dbQuery.password
+    }
+    if(typeof dbQuery.singlePrizeWinnings !== "undefined") {
+        newUser.singlePrizeWinnings = dbQuery.singlePrizeWinnings
+    }
+    if(typeof dbQuery.totalPrizeWinnings !== "undefined") {
+        newUser.totalPrizeWinnings = dbQuery.totalPrizeWinnings
+    }
+
+    // These break stuff
+    if(typeof dbQuery.facebook !== "undefined") {
+        User.initFB(newUser)
+    }
+    if(typeof dbQuery.google !== "undefined") {
+        User.initG(newUser)
+    }
+    console.log('New User from dbQuery')
+    console.log(newUser)
+    
+    return newUser
+}

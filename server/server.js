@@ -12,6 +12,8 @@ const morgan        = require('morgan')
 const cookieParser  = require('cookie-parser')
 const bodyParser    = require('body-parser')
 const session       = require('express-session')
+const UserRouter    = require('./routes/UserRoutes')
+const MillionaireRouter = require('./routes/MillionaireRoutes')
 // var configDB = require('./config/database.js');
 
 // configure ==================================================================
@@ -20,19 +22,26 @@ require('./authentication/passport')(passport); // pass passport for configurati
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()); // get information from html forms
+app.use(bodyParser.json()); // get information from html forms
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 app.set('views', path.join(__dirname, '/../www/'));
 
 // required for passport
-app.use(session({ secret: 'whowantstobeamillionaire' })); // session secret
+// app.use(session({ secret: 'whowantstobeamillionaire' })); // session secret
+app.use(session({
+  secret: 'whowantstobeamillionaire',
+  resave: true,
+  saveUninitialized: true
+}))
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes =====================================================================
-require('./routes/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+app.use('/user/', UserRouter(passport));
+app.use('/', MillionaireRouter);
 
 // Server listen on port
 app.listen(port, err  => {

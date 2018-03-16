@@ -22,9 +22,7 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        // done(null, user.id);
-        console.log('in serialized')
-        console.log(user)
+        // console.log('in serialized')
         done(null, user._id);
     });
 
@@ -33,18 +31,12 @@ module.exports = function(passport) {
         // User.findById(id, function(err, user) {
         //     done(err, user);
         // });
-        console.log('in deserialized')
+        // console.log('in deserialized')
         // User gets lost here
         let userRequest = MongoController.getUserById(user_id)
         userRequest.then((result) => {
-            console.log('This is the dbQuery Result:')
-            console.log(result)
-            // done(null, getUser(result))
             done(null, result)
         })
-        // console.log('the user id: ')
-        // console.log(user_id)
-        // done(null, user_id);
     });
 
     // =========================================================================
@@ -70,7 +62,6 @@ module.exports = function(passport) {
                 let hashedPassword = AuthHelper.generateHash(password)
                 MongoController.insertUser(email, hashedPassword)
                 let user = new User(email, hashedPassword)
-                // let user = getUser(value) // Need to get ID from DB
                 return done(null, user)
             }
         })
@@ -127,17 +118,12 @@ module.exports = function(passport) {
         process.nextTick(function() {
 
             // find the user in the database based on their facebook id
-            console.log(profile)
             let requestedUser = MongoController.getUserFromFBID(profile.id)
             requestedUser.then((dbResult) => {
                 // if user is found, log in
                 if (dbResult) {
-                    // return done(null, getUser(dbResult))
                     return done(null, dbResult)
                 } else {
-                    console.log(profile)
-                    console.log(token)
-                    console.log('Still working 1')
                     let newUser = new User()
                     // set all of the facebook information in our user model
                     newUser.username       = profile.displayName
@@ -146,7 +132,6 @@ module.exports = function(passport) {
                     newUser.facebook.token = token; // we will save the token that facebook provides to the user
                     // newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
                     // newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first // Gives errors
-                    console.log(newUser)
 
                     // save them to DB
                     let save = MongoController.insertUserObject(newUser)
@@ -190,7 +175,6 @@ module.exports = function(passport) {
             let requestedUser = MongoController.getUserFromGoogle(profile.id)
             requestedUser.then((dbResult) => {
                 if (dbResult) {
-                    // return done(null, getUser(dbResult))
                     return done(null, dbResult)
                 } else {
                     let newUser = new User()
@@ -204,7 +188,6 @@ module.exports = function(passport) {
                     // save them to DB
                     let save = MongoController.insertUserObject(newUser)
                     save.then((userID) => {
-                        console.log(userID)
                         if (userID !== null) {
                             newUser.id = userID
                             return done(null, newUser);
@@ -229,9 +212,7 @@ module.exports = function(passport) {
 };
 
 function getUser(dbQuery) {
-    // The problem seems to be that passport needs to serialize the object and save the id for session management
-    // The error comes when deserializing since I cannot recreate the user from the DB
-    console.log('in dbQuery')
+    // console.log('in dbQuery')
     let newUser = new User()
     newUser.id = dbQuery._id
     newUser._id = dbQuery._id
@@ -257,8 +238,8 @@ function getUser(dbQuery) {
     if(typeof dbQuery.google !== "undefined") {
         User.initG(newUser)
     }
-    console.log('New User from dbQuery')
-    console.log(newUser)
+    // console.log('New User from dbQuery')
+    // console.log(newUser)
     
     return newUser
 }

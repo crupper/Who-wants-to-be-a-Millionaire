@@ -53,9 +53,9 @@ router.post('/updateUser', bodyParser.json(), function(req, res) {
     if(!body || !body.index || !body.status) {
         res.status(400).send('Invalid Body')
     } else {
-        gController.updateUserStanding(body.index, body.status)
-        // Move on to next Q
-        let result = 'Move on'
+        let result = gController.updateUserStanding(body.index, body.status)
+        // console.log('in updateUser')
+        // console.log(result)
         res.status(200).send(result)
     }
 })

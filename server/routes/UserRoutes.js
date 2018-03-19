@@ -20,7 +20,7 @@ module.exports = function(passport) {
 
     // process the login form
     router.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/user/profile', // redirect to the secure profile section
+        successRedirect : '/game', // redirect to the secure game section
         failureRedirect : '/user/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
@@ -64,7 +64,7 @@ module.exports = function(passport) {
     // handle the callback after facebook has authenticated the user
     router.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect : '/user/profile',
+            successRedirect : '/game',
             failureRedirect : '/'
         }));
 
@@ -80,7 +80,7 @@ module.exports = function(passport) {
     // the callback after google has authenticated the user
     router.get('/auth/google/callback',
             passport.authenticate('google', {
-                    successRedirect : '/user/profile',
+                    successRedirect : '/game',
                     failureRedirect : '/'
             }));
 

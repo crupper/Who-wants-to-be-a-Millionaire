@@ -60,15 +60,18 @@ checkAnswer = function(answer) {
         index: 2,
         status: isCorrect
     }
-    $.ajax({
-        url: 'http://localhost:3000/updateUser',
-        type: 'POST',
-        data: dataObj
-      });
+
+    $.post('/updateUser', dataObj, function(responseObj) {
+        if(responseObj.level > 15) {
+            endGame()
+        } else {
+            // update screen
+            $('#level').text(responseObj.level)
+            $('#player-money').text(responseObj.money)
+        }
+    })
     
     if(isCorrect) {
-        // update screen
-        updateUserStanding()
         loadQuestion()
     } else {
         // endBackEnd()

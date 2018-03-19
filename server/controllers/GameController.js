@@ -39,15 +39,15 @@ module.exports = class GameController {
         }
         return moneyInfo
     }
-    checkAnswer(userAnswer) {
-        // Not in use yet
-        let correctAnswer = qInterface.getSyncAnswer(this.currentQIndex)
-        console.log('Checking the answer for index: ' + this.currentQIndex)
-        if(userAnswer === correctAnswer) {
-            return true
-        }
-        return false
-    }
+    // checkAnswer(userAnswer) {
+    //     // Not in use yet
+    //     let correctAnswer = qInterface.getSyncAnswer(this.currentQIndex)
+    //     console.log('Checking the answer for index: ' + this.currentQIndex)
+    //     if(userAnswer === correctAnswer) {
+    //         return true
+    //     }
+    //     return false
+    // }
     incrementLevel() {
         this.qLevel++
         console.log('Advancing to level: ' + this.qLevel)
@@ -63,6 +63,8 @@ module.exports = class GameController {
             console.log('Missed Q: ' + index)
             this.missedQuestions.push(this.currentQIndex)
         }
+        let resultObj =  {'money': getMoneyLevel(this.qLevel), 'level': this.qLevel, 'method': 'post'}
+        return resultObj 
     }
 
     endGame(hasWalked) {
@@ -86,7 +88,7 @@ adjustMoneyLevel = function(level) {
         result = 0
     } else if (level < 10) {
         result = 5
-    } else if (level === 15) {
+    } else if (level >= 15) {
         result = 15
     } else {
         console.log('Should not be here... adjust money')

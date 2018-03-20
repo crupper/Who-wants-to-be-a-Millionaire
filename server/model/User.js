@@ -7,6 +7,7 @@ module.exports = class User {
         this.password = password
         this.singlePrizeWinnings = 0
         this.totalPrizeWinnings = 0
+        this.loginMethod = ''
         this.google = {
             id           : String,
             token        : String,

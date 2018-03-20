@@ -22,51 +22,22 @@
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
+                <!-- Show which authentication system they used to log in -->
+                <% if(user.loginMethod === 'google') {%> 
+                    <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+                    <%} else if (user.loginMethod === 'facebook') { %> 
+                        <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>  <%} else {%>
+                    
+                        <h3><span class="fa fa-user"></span> Local</h3>  <%}%>
 
                     <p>
                         <!-- <strong>id</strong>: <%= user._id %><br> -->
-                        <strong>email</strong>: <%= user.username %><br>
-                        <!-- <strong>password</strong>: <%= user.password %><br> -->
+                        <% if(user.username === null) {%> 
+                        <strong>User</strong>: <%= user.google.name %> <%} else { %> <strong>User</strong>: <%= user.username %> <%}%> <br>
                         <strong>Highest Winnings in a Game: $</strong> <%= user.singlePrizeWinnings %><br>
-                        <strong>Total Winnings: $</strong> <%= user.totalPrizeWinnings %>
-                    </p>
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-
-                    <p>
-                        <strong>id</strong>: <%= user.google.id %><br>
-                        <strong>token</strong>: <%= user.google.token %><br>
-                        <strong>email</strong>: <%= user.google.email %><br>
-                        <strong>name</strong>: <%= user.google.name %>
-                    </p>
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <!-- FACEBOOK INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
-
-                    <p>
-                        <strong>id</strong>: <%= user.facebook.id %><br>
-                        <strong>token</strong>: <%= user.facebook.token %><br>
-                        <strong>name</strong>: <%= user.username %>
+                        <strong>Total Winnings: $</strong> <%= user.totalPrizeWinnings %><br>
+                        <strong>Questions answered correctly: </strong> <%= user.correctQuestions.length %><br>
+                        <strong>Questions answered incorrectly: </strong> <%= user.incorrectQuestions.length %>
                     </p>
 
             </div>

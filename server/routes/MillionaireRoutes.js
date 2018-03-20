@@ -25,18 +25,15 @@ router.get('/game', isLoggedIn, function(req, res) {
 })
 
 router.get('/loadQuestion', isLoggedIn, async function(req, res) {
-    // let q2 = qInterface.getSyncQuestion(2)
-    // gController.currentQIndex = 2
-    let response = await gController.loadQuestion()
+    let response = await gController.loadQuestion(req.user)
     // console.log('response in route is: ' + response)
-    res.status(200)
-    res.send(response)
+    res.status(200).send(response)
 })
 
 router.get('/getCurrentQuestion', isLoggedIn, async function(req, res) {
     let response = await gController.getCurrentQuestion()
-    console.log('current q:')
-    console.log(response)
+    // console.log('current q:')
+    // console.log(response)
     res.status(200).send(response)
 })
 
@@ -49,13 +46,13 @@ router.get('/userAnswer/:guess', isLoggedIn, function(req, res) {
 })
 
 router.post('/updateUser', bodyParser.json(), function(req, res) {
+    // console.log(req)
     const body = req.body
-    if(!body || !body.index || !body.status) {
+    if(!body || !body.status) {
         res.status(400).send('Invalid Body')
     } else {
-        let result = gController.updateUserStanding(body.index, body.status)
-        // console.log('in updateUser')
-        // console.log(result)
+        // console.log('UserID is : ' + req.user._id)
+        let result = gController.updateUserStanding(body.status, req.user._id)
         res.status(200).send(result)
     }
 })
@@ -66,12 +63,12 @@ router.get('/getUserStanding', isLoggedIn, async function(req, res) {
 })
 
 router.get('/endGame', isLoggedIn, function(req, res) {
-    let money = gController.endGame(false)
+    let money = gController.endGame(false, req.user._id)
     res.status(200).send(money)
 })
 
 router.get('/walk', isLoggedIn, async function(req, res) {
-    let money = gController.endGame(true)
+    let money = gController.endGame(true, req.user._id)
     res.status(200).send(money)
 })
 

@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const filePath = path.join(__dirname, '../../resources/wwtbam_json_file.json')
 
+
 module.exports = class QuestionInterface {
     constructor() {
         this.fileObj = require('../../resources/wwtbam_json_file.json')
@@ -24,12 +25,7 @@ module.exports = class QuestionInterface {
 	
     getAsyncQuestion(index) {
 		let localData = new Array
-		fs.readFile(filePath, 'utf8', function (err, data) {
-			if (err) throw err;
-			localData = JSON.parse(data);
-			// console.log(localData[index])
-			return localData[index]
-		})
+		return this.runFunction()
 	}
 
 	getSyncQuestion(index) {
@@ -108,5 +104,15 @@ module.exports = class QuestionInterface {
 
 			console.log('Removed Question!');
 		});
+	}
+
+	async runFunction(index) {
+		let localData = new Array
+		await fs.readFile(filePath, 'utf8', function (err, data) {
+			if (err) throw err;
+			localData = JSON.parse(data);
+			// console.log(localData[index])
+			return localData[index]
+		})
 	}
 }

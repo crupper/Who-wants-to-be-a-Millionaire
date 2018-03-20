@@ -57,7 +57,6 @@ checkAnswer = function(answer) {
         console.log('Incorrect!')
     }
     let dataObj = {
-        index: 2,
         status: isCorrect
     }
 

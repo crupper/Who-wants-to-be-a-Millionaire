@@ -130,6 +130,7 @@ module.exports = function(passport) {
                     newUser.displayName    = profile.displayName
                     newUser.facebook.id    = profile.id; // set the users facebook id
                     newUser.facebook.token = token; // we will save the token that facebook provides to the user
+                    newUser.loginMethod    = 'facebook'
                     // newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
                     // newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first // Gives errors
 
@@ -184,6 +185,7 @@ module.exports = function(passport) {
                     newUser.google.token = token;
                     newUser.google.name  = profile.displayName;
                     newUser.google.email = profile.emails[0].value; // pull the first email
+                    newUser.loginMethod = 'google'
 
                     // save them to DB
                     let save = MongoController.insertUserObject(newUser)

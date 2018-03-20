@@ -1,6 +1,7 @@
 'use-strict'
 
 const QInterface = require('./QuestionInterface')
+const MongoController = require('./MongoController')
 const qInterface = new QInterface()
 const moneyLevel = require('../../resources/MoneyLevels')
 
@@ -16,11 +17,18 @@ module.exports = class GameController {
         this.missedQuestions = []
     }
 
-    loadQuestion() {
+    loadQuestion(userObj) {
         // load random question
         let maxQIndex = qInterface.getQuestionLength() -1
         let randomIndex = Math.floor(Math.random() * maxQIndex)
         // make sure user has not had it before
+        if(typeof userObj.correctQuestions === "undefined") {
+            userObj.correctQuestions = []
+        } 
+        while(userObj.correctQuestions.includes(randomIndex)) {
+            randomIndex = Math.floor(Math.random() * maxQIndex)
+            console.log('player has seen this index. New index is: ' + randomIndex)
+        }
 
         this.currentQIndex = randomIndex
         console.log('index is: ' + randomIndex)
@@ -53,32 +61,49 @@ module.exports = class GameController {
         console.log('Advancing to level: ' + this.qLevel)
         // calculate next money levels
     }
-    updateUserStanding(index, status) {
+    updateUserStanding(status, _id) {
         // take the question index and if it was right or wrong and update user info in DB
-        console.log('Updating info on Q: ' + index + ' since it was ' + status)
+        console.log('Updating info on Q: ' + this.currentQIndex + ' since it was ' + status)
         if(status === "true") {
             this.passedQuestions.push(this.currentQIndex)
+            let correctIndex = this.currentQIndex
             this.incrementLevel()
+            MongoController.getUserById(_id).then((userObj) => {
+                if(typeof userObj.correctQuestions === "undefined") {
+                    userObj.correctQuestions = []
+                }
+                userObj.correctQuestions.push(correctIndex)
+                MongoController.updateCorrectQuestionArray(_id, userObj.correctQuestions)
+            })
         } else {
-            console.log('Missed Q: ' + index)
+            console.log('Missed Q: ' + this.currentQIndex)
             this.missedQuestions.push(this.currentQIndex)
+            MongoController.getUserById(_id).then((userObj) => {
+                if(typeof userObj.incorrectQuestions === "undefined") {
+                    userObj.incorrectQuestions = []
+                }
+                userObj.incorrectQuestions.push(this.currentQIndex)
+                MongoController.updateWrongQuestionArray(_id, userObj.incorrectQuestions)
+            })
         }
         let resultObj =  {'money': getMoneyLevel(this.qLevel), 'level': this.qLevel, 'method': 'post'}
         return resultObj 
     }
 
-    endGame(hasWalked) {
+    endGame(hasWalked, _id) {
         // write final amounts to DB
+        let gameOverMoney = 0
         if(!hasWalked) {
             // adjust final money and level
             this.qLevel = adjustMoneyLevel(this.qLevel)
-            let endMoney = getMoneyLevel(this.qLevel)
-            return {'money': endMoney}
+            gameOverMoney = getMoneyLevel(this.qLevel)
         } else {
-            let walkMoney = getMoneyLevel(this.qLevel)
-            return {'money': walkMoney}
+            gameOverMoney = getMoneyLevel(this.qLevel)
         }
-
+        MongoController.updatePrizeMoney(_id, gameOverMoney).then(() => {
+            console.log('DB updated endGame')
+        })
+        return {'money': gameOverMoney}
     }
 }
 

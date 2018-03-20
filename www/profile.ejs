@@ -22,6 +22,7 @@
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
+                <!-- <%console.log(user)%> -->
                 <!-- Show which authentication system they used to log in -->
                 <% if(user.loginMethod === 'google') {%> 
                     <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
@@ -36,8 +37,8 @@
                         <strong>User</strong>: <%= user.google.name %> <%} else { %> <strong>User</strong>: <%= user.username %> <%}%> <br>
                         <strong>Highest Winnings in a Game: $</strong> <%= user.singlePrizeWinnings %><br>
                         <strong>Total Winnings: $</strong> <%= user.totalPrizeWinnings %><br>
-                        <strong>Questions answered correctly: </strong> <%= user.correctQuestions.length %><br>
-                        <strong>Questions answered incorrectly: </strong> <%= user.incorrectQuestions.length %>
+                        <strong>Questions answered correctly: </strong> <%if(typeof user.correctQuestions !== 'undefined') {%> <%= user.correctQuestions.length %><br> <% } else {%>  <%= 0 %> <%}%>
+                        <strong>Questions answered incorrectly: </strong> <%if(typeof user.incorrectQuestions !== 'undefined') {%> <%= user.incorrectQuestions.length %><br> <% } else {%>  <%= 0 %> <%}%>
                     </p>
 
             </div>

@@ -100,6 +100,7 @@ module.exports = class GameController {
         } else {
             gameOverMoney = getMoneyLevel(this.qLevel)
         }
+        console.log(gameOverMoney)
         MongoController.updatePrizeMoney(_id, gameOverMoney).then(() => {
             console.log('DB updated endGame')
         })
@@ -155,4 +156,5 @@ getMoneyLevel = function(level) {
         case 15:
             return moneyLevel.FIFTEEN
     }
+    return result
 }

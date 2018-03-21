@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <title>Millionaire</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:80px; word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-user"></span> Profile Page</h1>
+        <a href="/user/logout" class="btn btn-default btn-sm">Logout</a>
+        <a href="/game" class="btn btn-default btn-sm">Play</a>
+        <a href="/questions/" class="btn btn-default btn-sm">Add/Remove Questions</a>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <!-- <%console.log(user)%> -->
+                <!-- Show which authentication system they used to log in -->
+                <% if(user.loginMethod === 'google') {%> 
+                    <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+                    <%} else if (user.loginMethod === 'facebook') { %> 
+                        <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>  <%} else {%>
+                    
+                        <h3><span class="fa fa-user"></span> Local</h3>  <%}%>
+
+                    <p>
+                        <!-- <strong>id</strong>: <%= user._id %><br> -->
+                        <% if(user.username === null) {%> 
+                        <strong>User</strong>: <%= user.google.name %> <%} else { %> <strong>User</strong>: <%= user.username %> <%}%> <br>
+                        <strong>Highest Winnings in a Game: $</strong> <%= user.singlePrizeWinnings %><br>
+                        <strong>Total Winnings: $</strong> <%= user.totalPrizeWinnings %><br>
+                        <strong>Questions answered correctly: </strong> <%if(typeof user.correctQuestions !== 'undefined') {%> <%= user.correctQuestions.length %><br> <% } else {%>  <%= 0 %> <%}%>
+                        <strong>Questions answered incorrectly: </strong> <%if(typeof user.incorrectQuestions !== 'undefined') {%> <%= user.incorrectQuestions.length %><br> <% } else {%>  <%= 0 %> <%}%>
+                    </p>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

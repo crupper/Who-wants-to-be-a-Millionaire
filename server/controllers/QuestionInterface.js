@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const filePath = path.join(__dirname, '../../resources/wwtbam_json_file.json')
 
+
 module.exports = class QuestionInterface {
     constructor() {
         this.fileObj = require('../../resources/wwtbam_json_file.json')
@@ -24,12 +25,7 @@ module.exports = class QuestionInterface {
 	
     getAsyncQuestion(index) {
 		let localData = new Array
-		fs.readFile(filePath, 'utf8', function (err, data) {
-			if (err) throw err;
-			localData = JSON.parse(data);
-			// console.log(localData[index])
-			return localData[index]
-		})
+		return this.runFunction()
 	}
 
 	getSyncQuestion(index) {
@@ -98,15 +94,30 @@ module.exports = class QuestionInterface {
 
 	removeQuestion(index) {
 		let qList = this.fileObj
-		delete qList[index]
+		if(index < qList.length) {
+			delete qList[index]
 
-		let stringJSON = JSON.stringify(this.fileObj)
+			let stringJSON = JSON.stringify(this.fileObj)
 
-		// override file
-		fs.writeFile(filePath, stringJSON, (err) => {  
+			// override file
+			fs.writeFile(filePath, stringJSON, (err) => {  
+				if (err) throw err;
+
+				console.log('Removed Question!');
+				return 'removed'
+			});
+		} else {
+			return 'Index out of range'
+		}
+	}
+
+	async runFunction(index) {
+		let localData = new Array
+		await fs.readFile(filePath, 'utf8', function (err, data) {
 			if (err) throw err;
-
-			console.log('Removed Question!');
-		});
+			localData = JSON.parse(data);
+			// console.log(localData[index])
+			return localData[index]
+		})
 	}
 }

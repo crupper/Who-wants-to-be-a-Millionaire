@@ -1,0 +1,47 @@
+<!-- www/game.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Millionaire</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-usd"></span>Who Wants to Be a Millionaire?</h1>
+        <hr class="my-4">
+
+        <p id='money-text'>Money: $</p>
+        <p id='player-money'>0</p>
+
+        <p id='level-text'> Level: </p> 
+        <p id='level'>0</p>
+        <br>
+        <h2 id='qID'>Question:</h2>
+        <div class="btn-group">
+            <button id='A' onclick="checkAnswer('A')"></button>
+            <button id='B' onclick="checkAnswer('B')"></button>
+        </div>
+        <br>
+        <div class="btn-group">
+            <button id='C' onclick="checkAnswer('C')"></button>
+            <button id='D' onclick="checkAnswer('D')"></button>
+        </div>
+
+        <br><br>
+        <button class="btn btn-default" onclick="walk()" id='walk-button'><span class="fa fa-user"></span> Take the money and walk!</button>
+        <button class="btn btn-default" onclick="newGame()" id='new-game-button'><span class="fa fa-user"></span> New Game</button>
+        <a href="/user/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
+        <a href="/user/profile" class="btn btn-default"><span class="fa fa-user"></span> Profile</a>
+    </div>
+
+</div>
+</body>
+<script src="js/game.js" type="text/javascript"></script>
+</html>

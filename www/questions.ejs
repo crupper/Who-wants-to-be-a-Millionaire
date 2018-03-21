@@ -1,0 +1,56 @@
+<!-- www/questions.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Millionaire</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-usd"></span>Add or Remove a Question:</h1>
+        <p>Total Questions: </p> <p id='question-length'></p>
+
+        <h2 id='qID'>Add a Question:</h2>
+        <form id='add-question-form' onsubmit="addQuestion()">
+                Question: 
+                <input type="text" name="question"><br>
+                A: 
+                <input type="text" name="optionA"><br>
+                B: 
+                <input type="text" name="optionB"><br>
+                C: 
+                <input type="text" name="optionC"><br>
+                D: 
+                <input type="text" name="optionD"><br>
+                Correct Answer: 
+                <input type="text" name="answer"><br>
+                <input type="submit"><br>
+        </form>
+
+        <h2 id='qID'>Remove a Question:</h2>
+        <form id='remove-question-form' onsubmit="removeQuestion()">
+            Index of question to remove: 
+            <input type='text' name='questionID'>
+            <input type="submit"><br>
+        </form>
+        
+        
+
+        <br><br>
+        
+        <a href="/user/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
+        <a href="/user/profile" class="btn btn-default"><span class="fa fa-user"></span> Profile</a>
+        <a href="/game" class="btn btn-default"><span class="fa fa-gamepad"></span> Play</a>
+    </div>
+
+</div>
+</body>
+<script src="questions.js" type="text/javascript"></script>
+</html>

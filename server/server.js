@@ -14,6 +14,7 @@ const bodyParser    = require('body-parser')
 const session       = require('express-session')
 const UserRouter    = require('./routes/UserRoutes')
 const MillionaireRouter = require('./routes/MillionaireRoutes')
+const QuestionRouter    = require('./routes/QuestionRoutes')
 // var configDB = require('./config/database.js');
 
 // configure ==================================================================
@@ -40,8 +41,9 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes =====================================================================
-app.use('/user/', UserRouter(passport));
-app.use('/', MillionaireRouter);
+app.use('/user/', UserRouter(passport))
+app.use('/', MillionaireRouter)
+app.use('/questions/', QuestionRouter)
 
 // Server listen on port
 app.listen(port, err  => {

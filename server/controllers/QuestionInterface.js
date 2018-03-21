@@ -94,16 +94,21 @@ module.exports = class QuestionInterface {
 
 	removeQuestion(index) {
 		let qList = this.fileObj
-		delete qList[index]
+		if(index < qList.length) {
+			delete qList[index]
 
-		let stringJSON = JSON.stringify(this.fileObj)
+			let stringJSON = JSON.stringify(this.fileObj)
 
-		// override file
-		fs.writeFile(filePath, stringJSON, (err) => {  
-			if (err) throw err;
+			// override file
+			fs.writeFile(filePath, stringJSON, (err) => {  
+				if (err) throw err;
 
-			console.log('Removed Question!');
-		});
+				console.log('Removed Question!');
+				return 'removed'
+			});
+		} else {
+			return 'Index out of range'
+		}
 	}
 
 	async runFunction(index) {

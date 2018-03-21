@@ -62,6 +62,7 @@ module.exports = function(passport) {
                 let hashedPassword = AuthHelper.generateHash(password)
                 MongoController.insertUser(email, hashedPassword)
                 let user = new User(email, hashedPassword)
+                user._id = '5ab0a9409ced1d31e4a00000'
                 return done(null, user)
             }
         })

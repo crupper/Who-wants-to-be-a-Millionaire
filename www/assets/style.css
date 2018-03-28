@@ -1,3 +1,93 @@
-#money-text {
-    color: blue
+body, body * {
+  color: white;
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+body{
+  padding-top:calc(50px + 4em);
+  background-color: #333;
+}
+
+nav{
+  position: absolute;
+  top:0;
+  left:0;
+  width:100vw;
+  height:50px;
+  -webkit-box-shadow: 1px 1px 1px 1px #555;
+  box-shadow: 1px 1px 1px 1px #555;
+}
+
+nav a {
+  height: 100%;
+  padding: 13px 30px;
+  display: inline-block;
+  background-color:rgba(255,255,255,0);
+  -webkit-transition: background-color .2s;
+  -o-transition: background-color .2s;
+  transition: background-color .2s;
+  float: right;
+}
+
+nav a:hover {
+  background-color: rgba(255,255,255,.4);
+  color: #222;
+  text-decoration: none;
+}
+
+#game{
+  display: flex;
+  width:100vw;
+  padding: 0 4em;
+}
+
+#game #scoreboard {
+  flex-grow: 1;
+  order: 2;
+}
+
+#game #play-area {
+  flex-grow: 3;
+  order: 1;
+}
+
+#scoreboard #level {
+  border: 1px solid orange;
+  padding: 1em 0;
+}
+
+#scoreboard a {
+  display: inline-block;
+  width: 100%;
+  padding:8px 20px;
+  text-align: center;
+  background-color: rgba(255,255,255, .4);
+  margin-bottom: 2em;
+  box-shadow: 1px 1px 1px 3px rgba(255,255,255, .4);
+}
+
+#scoreboard ul {
+  list-style-type: none;
+}
+
+#scoreboard li {
+  margin-bottom: .5rem;
+  font-size: 1.1em;
+  padding: .15em 1em;
+}
+
+#scoreboard li.active {
+  background-color: orange;
+}
+
+#scoreboard li span:first-of-type{
+  min-width:20px;
+  display: inline-block;
+}
+
+#play-area {
+  text-align: center;
+  padding: 0 12em;
 }

@@ -29,6 +29,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs'); // set up ejs for templating
 app.set('views', path.join(__dirname, '/../www/'));
 
+// Serve static directory
+app.use(express.static(path.resolve(__dirname, '../www')))
+
 // required for passport
 // app.use(session({ secret: 'whowantstobeamillionaire' })); // session secret
 app.use(session({
@@ -50,5 +53,3 @@ app.listen(port, err  => {
     if(err) console.error(err.stack)
     console.log('App listening on port ' + port)
   })
-// Serve static directory
-app.use(express.static('www'))

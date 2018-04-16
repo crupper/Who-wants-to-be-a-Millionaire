@@ -49,7 +49,9 @@ updateUserStanding = function() {
         });
         console.log("standing.level = " + standing.level);
         try{
-          document.querySelector("#level li:nth-child(" + (15 - standing.level) + ")").classList.add("active");
+          if(standing.level != 15){
+            document.querySelector("#level li:nth-child(" + (15 - standing.level) + ")").classList.add("active");
+          }
         }
         catch(err) {
           document.querySelector("#level li:nth-child(" + (15 - 0) + ")").classList.add("active");

@@ -5,49 +5,46 @@
     <title>Millionaire</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body        { padding-top:80px; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/assets/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<body>
-<div class="container">
+<body id= "add_remove">
+  <nav>
+    <a href="/user/logout"> Logout</a><a href="/game">Play</a><a href="/questions/">Add/Remove Questions</a>
+  </nav>
+  <div class="container questions">
 
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-usd"></span>Add or Remove a Question:</h1>
-        <p>Total Questions: </p> <p id='question-length'></p>
+    <div class= "question-container">
+        <h2></span>Add or Remove a Question</h2>
+        <p>Total Questions: </p> <div id='question-length'></div>
 
-        <h2 id='qID'>Add a Question:</h2>
-        <form id='add-question-form' onsubmit="addQuestion()">
-                Question: 
-                <input type="text" name="question"><br>
-                A: 
-                <input type="text" name="optionA"><br>
-                B: 
-                <input type="text" name="optionB"><br>
-                C: 
-                <input type="text" name="optionC"><br>
-                D: 
-                <input type="text" name="optionD"><br>
-                Correct Answer: 
-                <input type="text" name="answer"><br>
-                <input type="submit"><br>
-        </form>
+        <div>
+          <form id='add-question-form' onsubmit="addQuestion()">
+            <div>
+                  <h3 id='qID'>Add a Question:</h3>
+                  <p>Question:</p>
+                  <input type="text" name="question"><br>
+                  <p>A:</p>
+                  <input type="text" name="optionA"><br>
+                  <p>B:</p>
+                  <input type="text" name="optionB"><br>
+                  <p>C:</p>
+                  <input type="text" name="optionC"><br>
+                  <p>D:</p>
+                  <input type="text" name="optionD"><br>
+                  <p>Correct Answer:</p>
+                  <input type="text" name="answer"><br>
+                  <input type="submit"><br>
+            </div>
+          </form>
 
-        <h2 id='qID'>Remove a Question:</h2>
-        <form id='remove-question-form' onsubmit="removeQuestion()">
-            Index of question to remove: 
-            <input type='text' name='questionID'>
-            <input type="submit"><br>
-        </form>
-        
-        
-
-        <br><br>
-        
-        <a href="/user/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
-        <a href="/user/profile" class="btn btn-default"><span class="fa fa-user"></span> Profile</a>
-        <a href="/game" class="btn btn-default"><span class="fa fa-gamepad"></span> Play</a>
+          <h3 id='qID'>Remove a Question:</h3>
+          <form id='remove-question-form' onsubmit="removeQuestion()">
+              Index of question to remove:
+              <input type='text' name='questionID'>
+              <input type="submit"><br>
+          </form>
+        </div>
     </div>
 
 </div>

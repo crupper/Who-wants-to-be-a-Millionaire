@@ -15,7 +15,7 @@ module.exports = function(passport) {
     router.get('/login', function(req, res) {
 
         // render the page and pass in any flash data if it exists
-        res.render('login.ejs', { message: req.flash('loginMessage') }); 
+        res.render('login.ejs', { message: req.flash('loginMessage') });
     });
 
     // process the login form
@@ -57,10 +57,10 @@ module.exports = function(passport) {
     // FACEBOOK ROUTES =====================
     // =====================================
     // route for facebook authentication and login
-    router.get('/auth/facebook', passport.authenticate('facebook', { 
+    router.get('/auth/facebook', passport.authenticate('facebook', {
         scope : ['public_profile', 'email']
       }));
-  
+
     // handle the callback after facebook has authenticated the user
     router.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
@@ -98,7 +98,7 @@ module.exports = function(passport) {
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
+    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
 

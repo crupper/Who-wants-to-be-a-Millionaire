@@ -43,8 +43,17 @@ updateUserStanding = function() {
     $.get("/getUserStanding", function(standing) {
         console.log('Question:')
         console.log(standing)
-        $('#level').text(standing.level)
-        $('#player-money').text(standing.money)
+        document.querySelectorAll("#level li").forEach(el => {
+          el.classList.remove("active");
+        });
+        console.log("standing.level = " + standing.level);
+        try{
+          document.querySelector("#level li:nth-child(" + (15 - standing.level) + ")").classList.add("active");
+        }
+        catch(err) {
+          document.querySelector("#level li:nth-child(" + (15 - 0) + ")").classList.add("active");
+        }
+        $('#player-money').text("$" + standing.money)
     })
 }
 
@@ -65,11 +74,21 @@ checkAnswer = function(answer) {
             endGame()
         } else {
             // update screen
-            $('#level').text(responseObj.level)
+            //$('#level').text(responseObj.level)
+            document.querySelectorAll("#level li").forEach(el => {
+            el.classList.remove("active");
+            console.log("/updateUser firing, standing = " + responseObj.level);
+            });
+            try{
+              document.querySelector("#level li:nth-child(" + (15 - responseObj.level) + ")").classList.add("active");
+            }
+            catch(err) {
+              document.querySelector("#level li:nth-child(" + (15 - 0) + ")").classList.add("active");
+            }
             $('#player-money').text(responseObj.money)
         }
     })
-    
+
     if(isCorrect) {
         loadQuestion()
     } else {
@@ -88,16 +107,8 @@ endGame = function() {
         }
     })
     // Hide unwanted elements
-    $('#walk-button').hide()
-    $('#level').hide()
-    $('#player-money').hide()
-    $('#level-text').hide()
-    $('#money-text').hide()
-    $('#qID').hide()
-    $('#A').hide()
-    $('#B').hide()
-    $('#C').hide()
-    $('#D').hide()
+    $('#scoreboard').hide()
+    $('#play-area').hide()
 }
 
 walk = function() {
@@ -109,17 +120,9 @@ walk = function() {
         }
     })
     // Hide unwanted elements
-    $('#walk-button').hide()
-    $('#level').hide()
-    $('#player-money').hide()
-    $('#level-text').hide()
-    $('#money-text').hide()
-    $('#qID').hide()
-    $('#A').hide()
-    $('#B').hide()
-    $('#C').hide()
-    $('#D').hide()
-    
+    $('#scoreboard').hide()
+    $('#play-area').hide()
+
 }
 
 newGame = function() {

@@ -14,7 +14,8 @@ module.exports = router;
 // HOME PAGE (with login links) ========
 // =====================================
 router.get('/', function(req, res) {
-    res.render('index.ejs'); // load the index.ejs file
+    //res.render('login.ejs'); // load the index.ejs file
+    res.render('login.ejs', { message: req.flash('loginMessage') });
 });
 
 // =====================================
@@ -81,7 +82,7 @@ router.get('/newGame', isLoggedIn, function(req, res) {
 
 function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
+    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next()
 

@@ -1,3 +1,312 @@
-#money-text {
-    color: blue
+body, body * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+}
+
+body{
+  padding-top:calc(50px + 1.5em);
+  background-color: #ebeaea;
+}
+
+nav{
+  position: absolute;
+  top:0;
+  left:0;
+  width:100vw;
+  height:50px;
+  -webkit-box-shadow: 1px 1px 1px 1px #ccc;
+  box-shadow: 1px 1px 1px 1px #ccc;
+  border-bottom: solid 1px white;
+  background-color: white;
+}
+
+nav a {
+  height: 100%;
+  padding: 13px 30px;
+  display: inline-block;
+  background-color:rgba(255,255,255,0);
+  transition: all .1s ease-in;
+  float: right;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: orange;
+  text-decoration: none;
+}
+
+.nav-title {
+  display:inline-block;
+  padding-top:15px;
+  padding-left:4rem;
+  color:#333;
+}
+
+#game{
+  display: flex;
+  width:100vw;
+  padding: 0 4em;
+  max-width:928px;
+  margin: auto;
+  background-color: white;
+  padding: 4rem;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 5px 5px #ccc;
+  -moz-box-shadow: 0px 0px 5px 5px #ccc;
+  box-shadow: 0px 0px 5px 5px #ccc;
+}
+
+#game #scoreboard {
+  flex-grow: 1;
+  order: 2;
+}
+
+#game #play-area {
+  flex-grow: 1;
+  order: 1;
+}
+
+#scoreboard #level {
+  border: 1px solid orange;
+  padding: 1em 0;
+}
+
+#scoreboard a {
+  display: inline-block;
+  width: 100%;
+  padding: 8px 20px;
+  text-align: center;
+  background-color: orange;
+  margin-bottom: 2em;
+  box-shadow: 1px 0px 1px 0px rgba(255,255,255, .4);
+  cursor: pointer;
+}
+
+#scoreboard > a:hover {
+  color: white;
+  text-decoration: none;
+  opacity: .9;
+}
+
+#scoreboard ul {
+  list-style-type: none;
+}
+
+#scoreboard li {
+  margin-bottom: .5rem;
+  font-size: .96em;
+  padding: .025em 1em;
+}
+
+#scoreboard li.active {
+  background-color: orange;
+}
+
+#scoreboard li.active span {
+  color: white;
+}
+
+#scoreboard li span:first-of-type{
+  min-width:20px;
+  display: inline-block;
+}
+
+#play-area {
+  text-align: center;
+  padding: 0 2em;
+  max-width: 770px;
+}
+
+#play-area h2 {
+  margin-bottom: 1em;
+
+}
+
+#gameboard #qID {
+  margin-bottom: 1em;
+}
+
+#gameboard > div {
+  display: inline-block;
+  width: 40%;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  text-align: left;
+  border: 1px solid orange;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+#gameboard div div {
+  padding: 1em;
+}
+
+#gameboard > div:hover {
+  background-color: orange;
+  transition: all .1s ease-in;
+}
+
+#gameboard > div:hover span {
+  color:white;
+}
+
+section#scoreboard a {
+    color: #333;
+    border: 1px solid orange;
+    background-color:white;
+    transition: all .1s ease-in;
+}
+
+section#scoreboard a:hover {
+    color: white;
+    background-color:orange;
+}
+
+
+/******** Profile Page *********/
+
+.stats-container.stats-container {
+  margin-left: 4rem;
+  display: inline-block;
+  text-align:left;
+}
+
+.stats-container h1 {
+  margin-bottom: 2rem;
+}
+
+.stats-container ul {
+
+}
+
+.stats-container li {
+  list-style-type: none;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/********** Login Page *********/
+
+body#login {
+  background-color: #ebeaea;
+  padding-top: 4rem;
+}
+
+body#add_remove, body#profile_page {
+  background-color: #ebeaea;
+  text-align:center;
+}
+
+
+#login figure.logo {
+    background-image: url(logo.png);
+    background-size: cover;
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+}
+
+#login .col-sm-6.col-sm-offset-3, .question-container, .stats-container {
+  text-align:center;
+  background-color:white;
+  padding: 3rem 8rem 8rem 8rem;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 5px 5px #ccc;
+  -moz-box-shadow: 0px 0px 5px 5px #ccc;
+  box-shadow: 0px 0px 5px 5px #ccc;
+}
+
+#login .col-sm-6.col-sm-offset-3 > div {
+  text-align:left;
+}
+
+#login .col-sm-6.col-sm-offset-3 h1,
+#login .col-sm-6.col-sm-offset-3 p,
+#login .col-sm-6.col-sm-offset-3 h4  {
+  color: #333;
+}
+
+#login .col-sm-6.col-sm-offset-3 h1 {
+  text-align:center;
+}
+
+#login form {
+    margin: 20px 0px;
+}
+
+#login button.btn.btn-warning.btn-lg {
+    width: 100%;
+    padding: 5px 16px;
+    border-radius: 0;
+}
+
+#login a.btn.btn-primary, a.btn.btn-danger {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.social-login {
+  margin: 10px 0px;
+}
+
+.sign-up p {
+  text-align:center;
+}
+
+.sign-up a {
+  color: orange;
+}
+
+h1.login {
+  font-size:2em;
+}
+
+/* Add/Remove Page */
+
+#add_remove h3 {
+    margin-top: 4rem;
+}
+
+form#add-question-form div {
+    display: inline-block;
+}
+
+.question-container > p, div#question-length {
+    display: inline-block;
+}
+
+form#add-question-form > div {
+    text-align: left;
+}
+
+form#add-question-form > div input {
+    margin-bottom: 15px;
+}
+
+form#add-question-form > div p:first-of-type {
+  margin-top:15px;
+}
+
+input[type= submit] {
+  background-color: #f0ad4e;
+  color: white;
+  padding: 7px 24px;
+  border: 1px solid white;
+}
+input[type= submit]:hover {
+  background-color: white;
+  color: orange;
+  border:1px solid orange;
+  transition: all .1s ease-in;
+}
+
+div#question-length ~ div {
+    text-align: left;
+}
+
+.questions {
+  width: initial;
+  display: inline-block;
 }

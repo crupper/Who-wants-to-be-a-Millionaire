@@ -2,17 +2,67 @@
 <!doctype html>
 <html>
 <head>
-    <title>Millionaire</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <link rel="stylesheet" href="assets/style.css">
-    <style>
-        body        { padding-top:80px; }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Millionaire</title>
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+  <link rel="stylesheet" type="text/css" href="assets/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<div class="container">
+  <nav>
+    <h4 class= "nav-title">$ WHO WANTS TO BE A MILLIONAIRE?</h4>
+    <a href="/user/logout"> Logout</a><a href="/user/profile">Profile</a>
+  </nav>
+  <container id="game">
+    <h1></h1>
+    <section id="scoreboard">
+      <a onclick="" onclick="walk()">Take the Money!</a>
+      <ul id="level">
+        <li><span>15</span> <span>: &nbsp;$1 Million</span></li>
+        <li><span>14</span> <span>: &nbsp;$500,000</span></li>
+        <li><span>13</span> <span>: &nbsp;$250,000</span></li>
+        <li><span>12</span> <span>: &nbsp;$125,000</span></li>
+        <li><span>11</span> <span>: &nbsp;$64,000</span></li>
+        <li><span>10</span> <span>: &nbsp;$32,000</span></li>
+        <li><span>9</span> <span>: &nbsp;$16,000</span></li>
+        <li class="active"><span>8</span> <span>: &nbsp;$8,000</span></li>
+        <li><span>7</span> <span>: &nbsp;$4,000</span></li>
+        <li><span>6</span> <span>: &nbsp;$2,000</span></li>
+        <li><span>5</span> <span>: &nbsp;$1,000</span></li>
+        <li><span>4</span> <span>: &nbsp;$500</span></li>
+        <li><span>3</span> <span>: &nbsp;$300</span></li>
+        <li><span>2</span> <span>: &nbsp;$200</span></li>
+        <li><span>1</span> <span>: &nbsp;$100</span></li>
+      </ul>
+    </section>
+    <section id="play-area">
+      <h2 id="player-money"></h2>
+      <div id="gameboard">
+        <h3 id="qID"></h3>
+        <div id="answer-container">
+          <div onclick="checkAnswer('A')">
+            <span>A: </span><span id="A"></span>
+          </div>
+        </div>
+        <div class="answer-container">
+          <div onclick="checkAnswer('B')">
+            <span>B: </span><span id="B"></span>
+          </div>
+        </div>
+        <div class="answer-container">
+          <div onclick="checkAnswer('C')">
+            <span>C: </span><span id="C"></span>
+          </div>
+        </div>
+        <div class="answer-container">
+          <div onclick="checkAnswer('D')">
+            <span>D: </span><span id="D"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </container>
+  <!--<div class="container">
 
     <div class="jumbotron text-center">
         <h1><span class="fa fa-usd"></span>Who Wants to Be a Millionaire?</h1>
@@ -21,7 +71,7 @@
         <p id='money-text'>Money: $</p>
         <p id='player-money'>0</p>
 
-        <p id='level-text'> Level: </p> 
+        <p id='level-text'> Level: </p>
         <p id='level'>0</p>
         <br>
         <h2 id='qID'>Question:</h2>
@@ -40,7 +90,7 @@
         <button class="btn btn-default" onclick="newGame()" id='new-game-button'><span class="fa fa-user"></span> New Game</button>
         <a href="/user/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
         <a href="/user/profile" class="btn btn-default"><span class="fa fa-user"></span> Profile</a>
-    </div>
+    </div>-->
 
 </div>
 </body>

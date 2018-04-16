@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         updateUserStanding()
         loadCurrentQuestion()
     }
+    updateUserStanding()
 }, false);
 
 loadQuestion = function() {

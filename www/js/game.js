@@ -148,3 +148,9 @@ newGame = function() {
         loadQuestion()
     })
 }
+
+logoutAndDestroy = function() {
+    $.get("/walk", function(wMoney) {
+        window.location.replace('/user/logout')
+     })
+}

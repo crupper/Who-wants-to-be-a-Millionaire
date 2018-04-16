@@ -104,6 +104,9 @@ module.exports = class GameController {
         MongoController.updatePrizeMoney(_id, gameOverMoney).then(() => {
             console.log('DB updated endGame')
         })
+        // get new questionId (done in millionaireRoutes)
+        // reset qLevel and money
+        this.qLevel = 0
         return {'money': gameOverMoney}
     }
 }

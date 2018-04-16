@@ -63,12 +63,14 @@ router.get('/getUserStanding', isLoggedIn, async function(req, res) {
     res.status(200).send(standing)
 })
 
-router.get('/endGame', isLoggedIn, function(req, res) {
+router.get('/endGame', isLoggedIn, async function(req, res) {
+    let newQuestion = await gController.loadQuestion(req.user)
     let money = gController.endGame(false, req.user._id)
     res.status(200).send(money)
 })
 
 router.get('/walk', isLoggedIn, async function(req, res) {
+    let newQuestion = await gController.loadQuestion(req.user)
     let money = gController.endGame(true, req.user._id)
     res.status(200).send(money)
 })

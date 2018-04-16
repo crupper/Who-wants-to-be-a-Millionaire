@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         updateUserStanding()
         loadCurrentQuestion()
     }
+    updateUserStanding()
 }, false);
 
 loadQuestion = function() {
@@ -146,4 +147,10 @@ newGame = function() {
         console.log(response)
         loadQuestion()
     })
+}
+
+logoutAndDestroy = function() {
+    $.get("/walk", function(wMoney) {
+        window.location.replace('/user/logout')
+     })
 }
